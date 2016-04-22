@@ -1,5 +1,5 @@
 import FormsyText from '../src/FormsyText'
-import TextField from 'material-ui/TextField'
+import TextField from 'material-ui/lib/text-field'
 import { Simulate } from 'react-addons-test-utils'
 import { mountTestForm } from './support'
 import { Form } from 'formsy-react'

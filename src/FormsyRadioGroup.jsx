@@ -1,10 +1,10 @@
 import React from 'react';
 import Formsy from 'formsy-react';
-import {RadioButtonGroup} from 'material-ui/RadioButton';
+import RadioButtonGroup from 'material-ui/lib/radio-button-group';
 import { _setMuiComponentAndMaybeFocus } from './utils';
 
-const FormsyRadioGroup = React.createClass({
-  mixins: [Formsy.Mixin],
+let FormsyRadioGroup = React.createClass({
+  mixins: [ Formsy.Mixin ],
 
   propTypes: {
     name: React.PropTypes.string.isRequired
@@ -34,4 +34,4 @@ const FormsyRadioGroup = React.createClass({
   }
 });
 
-export default FormsyRadioGroup;
+module.exports = FormsyRadioGroup;
