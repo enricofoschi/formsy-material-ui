@@ -1,37 +1,40 @@
 import React from 'react';
 import Formsy from 'formsy-react';
-import {RadioButtonGroup} from 'material-ui/RadioButton';
-import { _setMuiComponentAndMaybeFocus } from './utils';
+import { RadioButtonGroup } from 'material-ui/RadioButton';
+import { setMuiComponentAndMaybeFocus } from './utils';
 
 const FormsyRadioGroup = React.createClass({
-  mixins: [Formsy.Mixin],
 
   propTypes: {
-    name: React.PropTypes.string.isRequired
+    children: React.PropTypes.node,
+    name: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func,
   },
 
-  handleValueChange: function (event, value) {
+  mixins: [Formsy.Mixin],
+
+  componentDidMount() {
+    this.setValue(this.muiComponent.getSelectedValue());
+  },
+
+  handleValueChange(event, value) {
     this.setValue(value);
     if (this.props.onChange) this.props.onChange(event, value);
   },
 
-  componentDidMount: function () {
-    this.setValue(this._muiComponent.getSelectedValue());
-  },
+  setMuiComponentAndMaybeFocus: setMuiComponentAndMaybeFocus,
 
-  _setMuiComponentAndMaybeFocus: _setMuiComponentAndMaybeFocus,
-
-  render: function () {
+  render() {
     return (
       <RadioButtonGroup
         {...this.props}
-        ref={this._setMuiComponentAndMaybeFocus}
+        ref={this.setMuiComponentAndMaybeFocus}
         onChange={this.handleValueChange}
       >
         {this.props.children}
       </RadioButtonGroup>
     );
-  }
+  },
 });
 
 export default FormsyRadioGroup;

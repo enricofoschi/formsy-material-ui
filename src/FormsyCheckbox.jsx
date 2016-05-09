@@ -1,41 +1,45 @@
 import React from 'react';
 import Formsy from 'formsy-react';
 import Checkbox from 'material-ui/Checkbox';
-import {_setMuiComponentAndMaybeFocus} from './utils';
+import { setMuiComponentAndMaybeFocus } from './utils';
 
 const FormsyCheckbox = React.createClass({
-  mixins: [Formsy.Mixin],
 
   propTypes: {
-    name: React.PropTypes.string.isRequired
+    defaultChecked: React.PropTypes.bool,
+    name: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func,
   },
 
-  handleValueChange: function (event, value) {
+  mixins: [Formsy.Mixin],
+
+  componentDidMount() {
+    this.setValue(this.muiComponent.isChecked());
+  },
+
+  handleChange(event, value) {
     this.setValue(value);
     if (this.props.onChange) this.props.onChange(event, value);
   },
 
-  componentDidMount: function () {
-    this.setValue(this._muiComponent.isChecked());
-  },
+  setMuiComponentAndMaybeFocus: setMuiComponentAndMaybeFocus,
 
-  _setMuiComponentAndMaybeFocus: _setMuiComponentAndMaybeFocus,
+  render() {
+    const { defaultChecked, ...rest } = this.props;
+    let value = this.getValue();
 
-  render: function () {
-
-    const extendedProps = Object.assign({}, this.props);
-    const defaultChecked = extendedProps.defaultChecked;
-    delete extendedProps.defaultChecked;
-
+    if (typeof value === 'undefined') {
+      value = (typeof defaultChecked !== 'undefined') ? defaultChecked : false;
+    }
     return (
       <Checkbox
-        {...extendedProps}
-        ref={this._setMuiComponentAndMaybeFocus}
-        onCheck={this.handleValueChange}
-        checked={this.getValue() || defaultChecked || false}
+        {...rest}
+        checked={value}
+        onCheck={this.handleChange}
+        ref={this.setMuiComponentAndMaybeFocus}
       />
     );
-  }
+  },
 });
 
 export default FormsyCheckbox;

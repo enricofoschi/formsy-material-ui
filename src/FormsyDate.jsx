@@ -1,34 +1,51 @@
 import React from 'react';
 import Formsy from 'formsy-react';
 import DatePicker from 'material-ui/DatePicker';
-import {_setMuiComponentAndMaybeFocus} from './utils';
+import { setMuiComponentAndMaybeFocus } from './utils';
 
 const FormsyDate = React.createClass({
-  mixins: [Formsy.Mixin],
 
   propTypes: {
-    name: React.PropTypes.string.isRequired
+    defaultDate: React.PropTypes.object,
+    name: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func,
+    value: React.PropTypes.object,
   },
 
-  handleValueChange: function (event, value) {
+  mixins: [Formsy.Mixin],
+
+  componentDidMount() {
+    const { defaultDate } = this.props;
+    const value = this.getValue();
+
+    if (typeof value === 'undefined' && typeof defaultDate !== 'undefined') {
+      this.setValue(defaultDate);
+    }
+  },
+
+  handleChange(event, value) {
     this.setValue(value);
     if (this.props.onChange) this.props.onChange(event, value);
   },
 
-  _setMuiComponentAndMaybeFocus: _setMuiComponentAndMaybeFocus,
+  setMuiComponentAndMaybeFocus: setMuiComponentAndMaybeFocus,
 
-  render: function () {
+  render() {
+    const {
+        defaultDate, // eslint-disable-line no-unused-vars
+        ...rest,
+    } = this.props;
+
     return (
       <DatePicker
-        {...this.props}
-        ref={this._setMuiComponentAndMaybeFocus}
-        defaultDate={this.props.value}
-        onChange={this.handleValueChange}
+        {...rest}
         errorText={this.getErrorMessage()}
+        onChange={this.handleChange}
+        ref={this.setMuiComponentAndMaybeFocus}
         value={this.getValue()}
       />
     );
-  }
+  },
 });
 
 export default FormsyDate;

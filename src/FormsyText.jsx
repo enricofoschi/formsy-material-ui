@@ -2,36 +2,30 @@ import React from 'react';
 import keycode from 'keycode';
 import Formsy from 'formsy-react';
 import TextField from 'material-ui/TextField';
-import {_setMuiComponentAndMaybeFocus} from './utils';
+import { setMuiComponentAndMaybeFocus } from './utils';
 
-let FormsyText = React.createClass({
-  mixins: [ Formsy.Mixin ],
+const FormsyText = React.createClass({
 
   propTypes: {
+    defaultValue: React.PropTypes.any,
     name: React.PropTypes.string.isRequired,
-    value: React.PropTypes.any,
+    onBlur: React.PropTypes.func,
+    onChange: React.PropTypes.func,
     onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func
+    onKeyDown: React.PropTypes.func,
+    value: React.PropTypes.any,
   },
 
-  handleChange: function handleChange(event) {
-    if(this.getErrorMessage() != null){
-      this.setValue(event.currentTarget.value);
-      if (this.props.onChange) this.props.onChange(event, event.currentTarget.value);
-    }
-    else{
-      if (this.isValidValue(event.target.value)) {
-        this.setValue(event.target.value);
-        if (this.props.onChange) this.props.onChange(event, event.target.value);
-      }
-      else{
-        this.setState({
-          _value: event.currentTarget.value,
-          _isPristine: false
-        });
-        if (this.props.onChange) this.props.onChange(event, event.currentTarget.value);
-      }
-    }
+  mixins: [Formsy.Mixin],
+
+  getInitialState() {
+    return {
+      value: this.props.defaultValue || this.props.value || '',
+    };
+  },
+
+  componentWillMount() {
+    this.setValue(this.props.defaultValue || this.props.value || '');
   },
 
   handleBlur: function handleBlur(event) {
@@ -39,36 +33,39 @@ let FormsyText = React.createClass({
     if (this.props.onBlur) this.props.onBlur(event);
   },
 
-  handleKeyDown: function handleKeyDown(event) {
+  handleChange: function handleChange(event) {
+    this.setState({
+      value: event.currentTarget.value,
+    });
+    if (this.props.onChange) this.props.onChange(event);
+  },
 
-    if (keycode(event) === 'enter') this.handleEnterKeyDown(event);
+  handleKeyDown: function handleKeyDown(event) {
+    if (keycode(event) === 'enter') this.setValue(event.currentTarget.value);
     if (this.props.onKeyDown) this.props.onKeyDown(event, event.currentTarget.value);
   },
 
-  handleEnterKeyDown: function handleEnterKeyDown(event) {
-    this.setValue(event.currentTarget.value);
-    if (this.props.onEnterKeyDown) this.props.onEnterKeyDown(event, event.currentTarget.value);
-  },
+  setMuiComponentAndMaybeFocus: setMuiComponentAndMaybeFocus,
 
-  _setMuiComponentAndMaybeFocus: _setMuiComponentAndMaybeFocus,
-
-  render: function () {
-
-    delete this.props.defaultValue;
-
+  render() {
+    const {
+      defaultValue, // eslint-disable-line no-unused-vars
+      onFocus,
+      value, // eslint-disable-line no-unused-vars
+      ...rest } = this.props;
     return (
       <TextField
-        {...this.props}
-        ref={this._setMuiComponentAndMaybeFocus}
-        onChange={this.handleChange}
-        onBlur={this.handleBlur}
-        onFocus={this.props.onFocus}
-        onKeyDown={this.handleKeyDown}
+        {...rest}
         errorText={this.getErrorMessage()}
-        value={this.getValue() || this.props.value || ''}
+        onBlur={this.handleBlur}
+        onChange={this.handleChange}
+        onFocus={onFocus}
+        onKeyDown={this.handleKeyDown}
+        ref={this.setMuiComponentAndMaybeFocus}
+        value={this.state.value}
       />
     );
-  }
+  },
 });
 
-export default  FormsyText;
+export default FormsyText;

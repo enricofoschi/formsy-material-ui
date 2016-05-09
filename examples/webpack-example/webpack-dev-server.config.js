@@ -47,7 +47,7 @@ const config = {
         test: /\.js$/,  //All .js files
         loaders: ['react-hot', 'babel-loader'], //react-hot is like browser sync and babel loads jsx and es6-7
         // loaders: ['react-hot'], //react-hot is like browser sync and babel loads jsx and es6-7
-        exclude: [nodeModulesPath, /formsy-material-ui/], // Make it work with `npm link`ed fmui
+        exclude: [nodeModulesPath, /formsy-material-ui\/node_modueles/], // Make it work with `npm link`ed fmui
       },
     ],
   },
@@ -58,4 +58,3 @@ const config = {
 };
 
 module.exports = config;
-git add 
