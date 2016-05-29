@@ -21,6 +21,7 @@ const FormsyText = React.createClass({
   getInitialState() {
     return {
       value: this.props.defaultValue || this.props.value || '',
+      canValidate: false
     };
   },
 
@@ -29,19 +30,22 @@ const FormsyText = React.createClass({
   },
 
   handleBlur: function handleBlur(event) {
+    this.setState({
+      canShowError: true
+    });
     this.setValue(event.currentTarget.value);
     if (this.props.onBlur) this.props.onBlur(event);
   },
 
   handleChange: function handleChange(event) {
     this.setState({
-      value: event.currentTarget.value,
+      value: event.currentTarget.value
     });
     if (this.props.onChange) this.props.onChange(event);
   },
 
   handleKeyDown: function handleKeyDown(event) {
-    this.setValue(event.currentTarget.value);
+    if (keycode(event) === 'enter') this.setValue(event.currentTarget.value);
     if (this.props.onKeyDown) this.props.onKeyDown(event, event.currentTarget.value);
   },
 
@@ -56,11 +60,11 @@ const FormsyText = React.createClass({
     return (
       <TextField
         {...rest}
-        errorText={this.getErrorMessage()}
+        errorText={this.state.canShowError ? this.getErrorMessage() : undefined}
         onBlur={this.handleBlur}
         onChange={this.handleChange}
         onFocus={onFocus}
-        onKeyPress={this.handleKeyDown}
+        onKeyDown={this.handleKeyDown}
         ref={this.setMuiComponentAndMaybeFocus}
         value={this.state.value}
       />
