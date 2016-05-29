@@ -29,11 +29,15 @@ const FormsyText = React.createClass({
     this.setValue(this.props.defaultValue || this.props.value || '');
   },
 
-  handleBlur: function handleBlur(event) {
+  _updateComponent: function(newValue) {
     this.setState({
       canShowError: true
     });
-    this.setValue(event.currentTarget.value);
+    this.setValue(newValue);
+  },
+
+  handleBlur: function handleBlur(event) {
+    this._updateComponent(event.currentTarget.value);
     if (this.props.onBlur) this.props.onBlur(event);
   },
 
@@ -42,6 +46,7 @@ const FormsyText = React.createClass({
       value: event.currentTarget.value
     });
     if (this.props.onChange) this.props.onChange(event);
+    this._updateComponent(event.currentTarget.value);
   },
 
   handleKeyDown: function handleKeyDown(event) {
