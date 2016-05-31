@@ -20,8 +20,7 @@ const FormsyText = React.createClass({
 
   getInitialState() {
     return {
-      value: this.props.defaultValue || this.props.value || '',
-      canValidate: false
+      value: this.props.defaultValue || this.props.value || ''
     };
   },
 
