@@ -24,17 +24,10 @@ const FormsySelect = React.createClass({
     this.setValue(value);
 
     this.setState({
-      hasChanged: value !== '',
-      canShowError: true
+      hasChanged: value !== ''
     });
 
     if (this.props.onChange) this.props.onChange(event, value, index);
-  },
-
-  handleBlur: function handleBlur(event) {
-    this.setState({
-      canShowError: true
-    });
   },
 
   setMuiComponentAndMaybeFocus: setMuiComponentAndMaybeFocus,
@@ -46,7 +39,7 @@ const FormsySelect = React.createClass({
     return (
       <SelectField
         {...rest}
-        errorText={this.state.canShowError ? this.getErrorMessage() : undefined}
+        errorText={this.props.disableValidation ? undefined : this.getErrorMessage()}
         onChange={this.handleChange}
         onBlur={this.handleBlur}
         ref={this.setMuiComponentAndMaybeFocus}
