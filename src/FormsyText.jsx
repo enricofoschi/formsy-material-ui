@@ -13,19 +13,46 @@ const FormsyText = React.createClass({
     onChange: React.PropTypes.func,
     onFocus: React.PropTypes.func,
     onKeyDown: React.PropTypes.func,
+    validationError: React.PropTypes.string,
+    validationErrors: React.PropTypes.object,
+    validations: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
     value: React.PropTypes.any,
   },
 
   mixins: [Formsy.Mixin],
 
+
   getInitialState() {
-    return {
-      value: this.props.defaultValue || this.props.value || ''
-    };
+    return { value: this.controlledValue() };
   },
 
   componentWillMount() {
-    this.setValue(this.props.defaultValue || this.props.value || '');
+    this.setValue(this.controlledValue());
+  },
+
+  componentWillReceiveProps(nextProps) {
+    const isValueChanging = nextProps.value !== this.props.value;
+    if (isValueChanging || nextProps.defaultValue !== this.props.defaultValue) {
+      const value = this.controlledValue(nextProps);
+      if (isValueChanging || this.props.defaultValue === this.getValue()) {
+        this.setState({ value });
+        this.setValue(value);
+      }
+    }
+  },
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState._isPristine && // eslint-disable-line no-underscore-dangle
+      nextState._isPristine !== this.state._isPristine) { // eslint-disable-line no-underscore-dangle
+      // Calling state here is valid, as it cannot cause infinite recursion.
+      const value = this.controlledValue(nextProps);
+      this.setValue(value);
+      this.setState({ value });
+    }
+  },
+
+  controlledValue(props = this.props) {
+    return props.value || props.defaultValue || '';
   },
 
   _updateComponent: function(newValue) {
@@ -58,6 +85,9 @@ const FormsyText = React.createClass({
   render() {
     const {
       defaultValue, // eslint-disable-line no-unused-vars
+      validations, // eslint-disable-line no-unused-vars
+      validationError, // eslint-disable-line no-unused-vars
+      validationErrors, // eslint-disable-line no-unused-vars
       onFocus,
       value, // eslint-disable-line no-unused-vars
       ...rest } = this.props;
