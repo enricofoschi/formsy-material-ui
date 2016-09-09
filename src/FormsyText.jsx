@@ -88,7 +88,7 @@ const FormsyText = React.createClass({
       validations, // eslint-disable-line no-unused-vars
       validationError, // eslint-disable-line no-unused-vars
       validationErrors, // eslint-disable-line no-unused-vars
-      uncontroller, // eslint-disable-line no-unused-vars
+      uncontrolled, // eslint-disable-line no-unused-vars
       onFocus,
       value, // eslint-disable-line no-unused-vars
       ...rest } = this.props;
