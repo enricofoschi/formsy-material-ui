@@ -88,9 +88,17 @@ const FormsyText = React.createClass({
       validations, // eslint-disable-line no-unused-vars
       validationError, // eslint-disable-line no-unused-vars
       validationErrors, // eslint-disable-line no-unused-vars
+      uncontroller, // eslint-disable-line no-unused-vars
       onFocus,
       value, // eslint-disable-line no-unused-vars
       ...rest } = this.props;
+
+    if(this.props.uncontrolled) {
+      rest.defaultValue = this.props.defaultValue;
+    } else {
+      rest.value = this.state.value;
+    }
+
     return (
       <TextField
         {...rest}
@@ -100,7 +108,6 @@ const FormsyText = React.createClass({
         onFocus={onFocus}
         onKeyDown={this.handleKeyDown}
         ref={this.setMuiComponentAndMaybeFocus}
-        value={this.state.value}
       />
     );
   },
