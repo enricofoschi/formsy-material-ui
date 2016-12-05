@@ -1,4 +1,4 @@
-# formsy-material-ui [![npm version](https://badge.fury.io/js/formsy-material-ui.svg)](https://badge.fury.io/js/formsy-material-ui)
+# formsy-material-ui [![npm version](https://badge.fury.io/js/formsy-material-ui.svg)](https://badge.fury.io/js/formsy-material-ui) [![Build Status](https://travis-ci.org/mbrookes/formsy-material-ui.svg?branch=master)](https://travis-ci.org/mbrookes/formsy-material-ui)
 
 This library is a wrapper for [Material-UI](http://material-ui.com/) form components to allow them to be used
 with [formsy-react](https://github.com/christianalfoni/formsy-react), a form validation component for React forms.
@@ -32,19 +32,20 @@ import FormsySelect from 'formsy-material-ui/lib/FormsySelect';
 import FormsyText from 'formsy-material-ui/lib/FormsyText';
 import FormsyTime from 'formsy-material-ui/lib/FormsyTime';
 import FormsyToggle from 'formsy-material-ui/lib/FormsyToggle';
+import FormsyAutoComplete from 'formsy-material-ui/lib/FormsyAutoComplete';
 ```
 
 OR:
 
 ```js
 import { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup, 
-  FormsySelect, FormsyText, FormsyTime, FormsyToggle } from 'formsy-material-ui/lib';
+  FormsySelect, FormsyText, FormsyTime, FormsyToggle, FormsyAutoComplete } from 'formsy-material-ui/lib';
 ```
 
 ### Events
 
 Components allow for `onChange` event handlers in props. They are fired when the value of the 
-component changes, regardless of the underlying handler (eg, `FomrsyToggle` uses `onToggle` internally, but we
+component changes, regardless of the underlying handler (eg, `FormsyToggle` uses `onToggle` internally, but we
 still use `onChange` in props to hook into the event.)
 
 The call back signatures for all `onChange` handlers conform to 
@@ -72,6 +73,6 @@ See [CHANGELOG.md](https://github.com/mbrookes/formsy-material-ui/blob/master/CH
 
 ## Acknowledgements
 
-Originally based on an example by [Ryan Blakeley](https://github.com/rblakeley).
+Originally based on an example by [Ryan Blakeley](https://github.com/rojobuffalo).
 
 Thanks to our [contributors](https://github.com/mbrookes/formsy-material-ui/graphs/contributors).
