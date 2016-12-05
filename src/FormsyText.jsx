@@ -129,7 +129,7 @@ const FormsyText = React.createClass({
 
     const { isRequired, isPristine, isValid, isFormSubmitted } = this;
     const isRequiredError = isRequired() && !isPristine() && !isValid() && isFormSubmitted() && requiredError;
-    const errorText = this.getErrorMessage() || isRequiredError;
+    const errorText = this.state.canShowError ? this.getErrorMessage() || isRequiredError : undefined;
 
     return (
       <TextField
