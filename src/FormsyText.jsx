@@ -124,7 +124,7 @@ const FormsyText = React.createClass({
     if(this.props.uncontrolled) {
       rest.defaultValue = this.props.defaultValue;
     } else {
-      rest.value = this.state.value;
+      rest.value = this.getValue();
     }
 
     const { isRequired, isPristine, isValid, isFormSubmitted } = this;
@@ -139,7 +139,6 @@ const FormsyText = React.createClass({
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
         ref={this.setMuiComponentAndMaybeFocus}
-        value={this.getValue()}
         underlineStyle={this.state.isValid ? { color: this.validationColor() } : {}}
         underlineFocusStyle={this.state.isValid ? { color: this.validationColor() } : {}}
       />
